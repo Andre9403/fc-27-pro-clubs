@@ -1,0 +1,120 @@
+{
+  "club": {
+    "slug": "999888-garuda-nusantara-vfc",
+    "name": "Garuda Nusantara VFC",
+    "shortName": "GAR",
+    "motto": "Terbang Tinggi Menuju Puncak! 🦅",
+    "division": 1,
+    "divisionName": "Elite Division",
+    "platform": "common-gen5",
+    "eaClubId": "999888",
+    "adminPin": "1234",
+    "eaAutoSync": true,
+    "logo": "/clubs/999888-garuda-nusantara-vfc/images/logo.jpeg",
+    "stats": {
+      "matches": 0,
+      "wins": 0,
+      "draws": 0,
+      "losses": 0,
+      "goalsFor": 0,
+      "goalsAgainst": 0,
+      "skillRating": 1500,
+      "cleanSheets": 0,
+      "winRate": 0
+    },
+    "nextMatch": {
+      "opponent": "Friendly Opponent",
+      "date": "2026-09-30T09:21:33.607Z",
+      "tournament": "Weekly Scrimmage",
+      "isLive": false
+    }
+  },
+  "theme": {
+    "preset": "red",
+    "primary": "#E74C3C",
+    "light": "#FF7675",
+    "glow": "#FF5252",
+    "bgDeep": "#0D0808",
+    "bgSurface": "#181010",
+    "bgCard": "#221515",
+    "text": "#FFF5F5"
+  },
+  "formation": {
+    "name": "4-2-3-1",
+    "tactics": "Balanced Possession",
+    "startingXI": [
+      {
+        "slot": "GK",
+        "playerId": "p1",
+        "x": 50,
+        "y": 88
+      },
+      {
+        "slot": "LB",
+        "playerId": "p2",
+        "x": 16,
+        "y": 72
+      },
+      {
+        "slot": "CB1",
+        "playerId": "p3",
+        "x": 38,
+        "y": 74
+      },
+      {
+        "slot": "CB2",
+        "playerId": "p4",
+        "x": 62,
+        "y": 74
+      },
+      {
+        "slot": "RB",
+        "playerId": "p5",
+        "x": 84,
+        "y": 72
+      },
+      {
+        "slot": "LDM",
+        "playerId": "p6",
+        "x": 35,
+        "y": 55
+      },
+      {
+        "slot": "RDM",
+        "playerId": "p7",
+        "x": 65,
+        "y": 55
+      },
+      {
+        "slot": "LAM",
+        "playerId": "p8",
+        "x": 20,
+        "y": 35
+      },
+      {
+        "slot": "CAM",
+        "playerId": "p9",
+        "x": 50,
+        "y": 32
+      },
+      {
+        "slot": "RAM",
+        "playerId": "p10",
+        "x": 80,
+        "y": 35
+      },
+      {
+        "slot": "ST",
+        "playerId": "p11",
+        "x": 50,
+        "y": 14
+      }
+    ]
+  },
+  "socials": {
+    "discord": "",
+    "instagram": "",
+    "tiktok": "",
+    "streamers": []
+  }
+}

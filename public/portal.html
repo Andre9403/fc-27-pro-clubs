@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EA Sports FC Pro Clubs — Multi-Club Platform</title>
+  <meta name="description" content="Platform resmi direktori & pembuatan website klub EA Sports FC Pro Clubs. Cari tim Anda di database EA, daftarkan klub, dan dapatkan portal eksklusif lengkap dengan taktik 11v11, statistik in-game, dan manajemen pemain.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/portal.css">
+  <link rel="icon" type="image/jpeg" href="/images/logo.jpeg">
+</head>
+<body>
+
+  <!-- Ambience Stadium Lights -->
+  <div class="bg-ambience"></div>
+  <div class="bg-grid"></div>
+
+  <!-- HEADER -->
+  <header class="portal-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="brand-badge">PRO CLUBS HUB</span>
+        <h1 class="brand-title">EA FC <span>MULTI-CLUB</span></h1>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" id="btnOpenRegisterModal">
+          <span>➕</span> Daftarkan Klub Baru
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="portal-main">
+    
+    <!-- HERO SECTION -->
+    <section class="portal-hero">
+      <div class="hero-badge">⚡ PLATFORM MULTI-KLUB EA SPORTS FC 25 / 24</div>
+      <h2 class="hero-title">Temukan Klub Kamu di Server EA atau Daftarkan Sekarang</h2>
+      <p class="hero-desc">
+        Setiap klub yang terdaftar mendapatkan portal web mandiri beralamat unik <code>/clubid-clubname/</code> dengan database pemain, formasi interaktif 11v11, tema warna kustom, dan sinkronisasi live in-game EA Sports FC.
+      </p>
+
+      <!-- SEARCH BOX -->
+      <div class="search-card">
+        <div class="search-form">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="eaSearchInput" placeholder="Ketik nama klub di in-game EA FC (Contoh: Lamball, Garuda, Nocturne)..." autocomplete="off">
+          </div>
+          <select id="eaSearchPlatform" class="search-select">
+            <option value="common-gen5">PS5 / Xbox Series / PC (Gen 5)</option>
+            <option value="common-gen4">PS4 / Xbox One (Gen 4)</option>
+          </select>
+          <button type="button" class="btn-search" id="btnSearchEa">
+            <span>Cari di Database EA</span>
+          </button>
+        </div>
+
+        <!-- Search Status / Results -->
+        <div id="searchStatus" class="search-status" style="display:none;"></div>
+        <div id="searchResultsList" class="search-results-grid"></div>
+      </div>
+    </section>
+
+    <!-- REGISTERED CLUBS DIRECTORY -->
+    <section class="clubs-directory">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">🏆 Klub Terdaftar di Platform</h3>
+          <p class="section-subtitle">Pilih klub untuk membuka website resmi atau mengelola via Admin Dashboard.</p>
+        </div>
+        <div class="clubs-count-badge" id="clubsCountBadge">Memuat...</div>
+      </div>
+
+      <div class="clubs-grid" id="clubsGrid">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Memuat daftar klub terdaftar...</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL REGISTRASI KLUB BARU -->
+  <div class="modal-overlay" id="registerModal" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Daftarkan Klub Baru</h3>
+          <p class="modal-desc">Sistem akan otomatis membuatkan folder terisolasi dan database klub Anda.</p>
+        </div>
+        <button type="button" class="modal-close" id="btnCloseRegisterModal">✕</button>
+      </div>
+
+      <form id="registerClubForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nama Klub: <span class="required">*</span></label>
+            <input type="text" id="regClubName" class="form-input" required placeholder="Contoh: Garuda Muda FC">
+          </div>
+          <div class="form-group">
+            <label>Club ID EA Pro Clubs:</label>
+            <input type="text" id="regClubId" class="form-input" placeholder="Contoh: 438867 (opsional / otomatis)">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Platform Game:</label>
+            <select id="regPlatform" class="form-select">
+              <option value="common-gen5">PS5 / Xbox Series / PC (Next-Gen)</option>
+              <option value="common-gen4">PS4 / Xbox One (Old-Gen)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>PIN Admin Klub: <span class="required">*</span></label>
+            <input type="password" id="regAdminPin" class="form-input" required value="1234" maxlength="8" placeholder="PIN rahasia admin">
+            <small class="form-hint">Digunakan untuk login ke panel admin klub.</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Motto / Slogan Klub:</label>
+          <input type="text" id="regMotto" class="form-input" placeholder="Contoh: Spirit of Champions ⚡">
+        </div>
+
+        <!-- PILIHAN TEMA WARNA AWAL -->
+        <div class="form-group">
+          <label>Pilih Tema Warna Klub:</label>
+          <div class="theme-presets-picker">
+            <label class="theme-option active">
+              <input type="radio" name="themePreset" value="gold" checked>
+              <span class="theme-swatch gold-theme"></span>
+              <span class="theme-label">Lamball Gold</span>
+            </label>
+            <label class="theme-option">
+              <input type="radio" name="themePreset" value="red">
+              <span class="theme-swatch red-theme"></span>
+              <span class="theme-label">Crimson Red</span>
+            </label>
+            <label class="theme-option">
+              <input type="radio" name="themePreset" value="blue">
+              <span class="theme-swatch blue-theme"></span>
+              <span class="theme-label">Royal Blue</span>
+            </label>
+            <label class="theme-option">
+              <input type="radio" name="themePreset" value="green">
+              <span class="theme-swatch green-theme"></span>
+              <span class="theme-label">Emerald Green</span>
+            </label>
+            <label class="theme-option">
+              <input type="radio" name="themePreset" value="purple">
+              <span class="theme-swatch purple-theme"></span>
+              <span class="theme-label">Neon Cyber</span>
+            </label>
+          </div>
+          <small class="form-hint">Warna tema ini bisa diubah dan dikustomisasi kapan saja melalui Admin Panel.</small>
+        </div>
+
+        <div id="registerAlert" class="alert-box" style="display:none;"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btnCancelRegister">Batal</button>
+          <button type="submit" class="btn-primary" id="btnSubmitRegister">
+            <span>🚀</span> Buat Website Klub Sekarang
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="portal-footer">
+    <div class="footer-container">
+      <p>© 2026 EA Sports FC Pro Clubs Hub — Multi-Tenant Architecture. Ditenagai oleh EA Sports FC™ API.</p>
+    </div>
+  </footer>
+
+  <script src="/js/portal.js"></script>
+</body>
+</html>

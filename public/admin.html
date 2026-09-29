@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="adminPageTitle">Admin Dashboard — EA Sports FC Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="icon" type="image/jpeg" href="/images/logo.jpeg">
+</head>
+<body>
+
+  <!-- LOGIN OVERLAY -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <img src="/images/logo.jpeg" alt="Logo Klub" class="login-logo" id="loginClubLogo">
+      <h2 id="loginClubTitle">Admin Dashboard</h2>
+      <p>Masukkan PIN Keamanan untuk membuka dashboard manajemen klub.</p>
+      
+      <form id="loginForm">
+        <div class="pin-input-wrap">
+          <input type="password" id="adminPinInput" maxlength="8" placeholder="••••" required autofocus autocomplete="off">
+        </div>
+        <button type="submit" class="btn-login" id="btnLogin">Buka Dashboard</button>
+        <p class="login-hint">Default PIN: <code>1234</code></p>
+        <div id="loginAlert" class="alert-status"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD CONTAINER -->
+  <div class="admin-wrapper" id="adminWrapper" style="display:none;">
+    
+    <!-- TOP BAR -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <img src="/images/logo.jpeg" alt="Logo" class="topbar-logo" id="topbarClubLogo">
+        <div>
+          <h1 id="topbarClubName">Admin Dashboard</h1>
+          <span class="badge-role">Club Manager · Terverifikasi</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="/" class="btn-back-web" style="background:rgba(255,255,255,0.04); border-color:var(--border-subtle); margin-right:8px;">
+          <span>🌐</span> Cari Klub
+        </a>
+        <a href="../" id="linkBackToClub" class="btn-back-web">
+          <span>👁️</span> Buka Web Klub
+        </a>
+        <button type="button" class="btn-logout" id="btnLogout">Keluar</button>
+      </div>
+    </header>
+
+    <div class="admin-layout">
+      <!-- SIDEBAR NAVIGATION -->
+      <aside class="admin-sidebar">
+        <nav class="sidebar-nav">
+          <button class="nav-tab active" data-tab="tab-players">
+            <span>👥</span> Pemain & Starting XI
+          </button>
+          <button class="nav-tab" data-tab="tab-matches">
+            <span>⚽</span> Jadwal & Klip Laga
+          </button>
+          <button class="nav-tab" data-tab="tab-trials">
+            <span>📝</span> Pendaftaran Trial
+          </button>
+          <button class="nav-tab" data-tab="tab-ea">
+            <span>⚡</span> Sinkronisasi EA FC
+          </button>
+          <button class="nav-tab" data-tab="tab-theme">
+            <span>🎨</span> Tema Warna
+          </button>
+          <button class="nav-tab" data-tab="tab-config">
+            <span>⚙️</span> Pengaturan Klub
+          </button>
+        </nav>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="admin-main">
+        
+        <!-- TAB 1: MANAJEMEN PEMAIN -->
+        <section class="tab-pane active" id="tab-players">
+          <div class="pane-header">
+            <div>
+              <h2>Manajemen Skuad & Pemain</h2>
+              <p>Kelola nomor punggung, peran, kapten, status Starting XI, dan upload foto render transparan.</p>
+            </div>
+          </div>
+
+          <div class="players-table-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Pemain & ID EA</th>
+                  <th>Pos</th>
+                  <th>OVR</th>
+                  <th>No</th>
+                  <th>Starter</th>
+                  <th>Kapten</th>
+                  <th>Statistik</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="playersTableBody">
+                <tr><td colspan="9" style="text-align:center; padding:24px;">Memuat data pemain...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- TAB 2: UPDATE LAGA & HIGHLIGHT -->
+        <section class="tab-pane" id="tab-matches">
+          <div class="pane-header" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px;">
+            <div>
+              <h2>Riwayat Laga, Rapor & Highlight</h2>
+              <p>Catat hasil pertandingan baru, atur rapor pemain, statistik laga, dan sematkan video cuplikan gol.</p>
+            </div>
+            <button type="button" class="btn-save" id="btnToggleNewMatchForm" style="display:inline-flex; align-items:center; gap:8px;">
+              <span>➕</span> Catat Laga Baru
+            </button>
+          </div>
+
+          <!-- FORM INPUT PERTANDINGAN BARU (COLLAPSIBLE) -->
+          <div class="config-form-card" id="newMatchCard" style="display:none; max-width:none; margin-bottom:24px; border:1px solid var(--border-gold);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+              <h3 style="font-size:16px; color:var(--gold-primary);">⚡ Formulir Catat Hasil Laga Baru</h3>
+              <button type="button" id="btnCloseNewMatchCard" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:18px;">✕</button>
+            </div>
+
+            <form id="newMatchForm">
+              <div class="form-row2">
+                <div class="form-group">
+                  <label>Nama Tim Lawan: <span style="color:#E74C3C;">*</span></label>
+                  <input type="text" id="mOpponent" required class="admin-input" placeholder="Contoh: Nocturne VFC">
+                </div>
+                <div class="form-group">
+                  <label>Kompetisi / Turnamen: <span style="color:#E74C3C;">*</span></label>
+                  <input type="text" id="mCompetition" required class="admin-input" placeholder="Contoh: Asia Championship — Semifinal">
+                </div>
+              </div>
+
+              <div class="form-row2" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+                <div class="form-group">
+                  <label>Skor Klub Kita:</label>
+                  <input type="number" id="mScoreHome" min="0" value="3" required class="admin-input">
+                </div>
+                <div class="form-group">
+                  <label>Skor Lawan:</label>
+                  <input type="number" id="mScoreAway" min="0" value="1" required class="admin-input">
+                </div>
+                <div class="form-group">
+                  <label>Tanggal & Jam Laga:</label>
+                  <input type="datetime-local" id="mDate" required class="admin-input">
+                </div>
+                <div class="form-group">
+                  <label>Man of the Match (MOTM):</label>
+                  <select id="mMotmSelect" class="admin-select">
+                    <option value="">-- Pilih Pemain MOTM --</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Link Video Highlight (YouTube / TikTok / Twitch):</label>
+                <input type="url" id="mHighlightUrl" class="admin-input" placeholder="https://www.youtube.com/watch?v=...">
+              </div>
+
+              <!-- PENCETAK GOL DINAMIS -->
+              <div style="background:var(--bg-surface); padding:16px; border-radius:10px; border:1px solid var(--border-subtle); margin-bottom:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                  <h4 style="font-size:13.5px; color:var(--gold-light);">⚽ Pencetak Gol Tim Kita</h4>
+                  <button type="button" id="btnAddScorerRow" class="btn-edit-sm" style="font-size:11.5px;">+ Tambah Gol</button>
+                </div>
+                <div id="scorersInputsList" style="display:flex; flex-direction:column; gap:10px;">
+                  <!-- Dynamic Scorer Rows -->
+                </div>
+              </div>
+
+              <!-- STATISTIK TV -->
+              <div style="background:var(--bg-surface); padding:16px; border-radius:10px; border:1px solid var(--border-subtle); margin-bottom:18px;">
+                <h4 style="font-size:13.5px; color:var(--gold-light); margin-bottom:12px;">📊 Statistik Laga (Opsional / Otomatis)</h4>
+                <div class="form-row2" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+                  <div class="form-group">
+                    <label>Penguasaan Bola Kita (%):</label>
+                    <input type="number" id="mPossHome" min="1" max="99" value="55" class="admin-input">
+                  </div>
+                  <div class="form-group">
+                    <label>Tembakan Kita:</label>
+                    <input type="number" id="mShotsHome" min="0" value="12" class="admin-input">
+                  </div>
+                  <div class="form-group">
+                    <label>Tembakan Lawan:</label>
+                    <input type="number" id="mShotsAway" min="0" value="6" class="admin-input">
+                  </div>
+                  <div class="form-group">
+                    <label>Tekel Kita:</label>
+                    <input type="number" id="mTacklesHome" min="0" value="15" class="admin-input">
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:12px;">
+                <button type="submit" class="btn-save" id="btnSubmitNewMatch">💾 Simpan Laga ke Riwayat</button>
+                <button type="button" class="btn-edit-sm" id="btnCancelNewMatch">Batal</button>
+              </div>
+              <div id="newMatchAlert" class="alert-status"></div>
+            </form>
+          </div>
+
+          <!-- LIST PERTANDINGAN TERCATAT -->
+          <div class="matches-list-card" id="matchesListAdmin">
+            <div style="text-align:center; padding:24px; color:var(--text-muted);">Memuat riwayat laga...</div>
+          </div>
+        </section>
+
+        <!-- TAB 3: MANAJEMEN TRIAL -->
+        <section class="tab-pane" id="tab-trials">
+          <div class="pane-header">
+            <div>
+              <h2>Pendaftaran Trial Pemain Baru</h2>
+              <p>Tinjau calon rekrutan, setujui/tolak aplikasi, dan hubungi via Discord.</p>
+            </div>
+          </div>
+
+          <div class="trials-table-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>ID EA</th>
+                  <th>Discord</th>
+                  <th>Posisi</th>
+                  <th>Archetype</th>
+                  <th>Pengalaman</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="trialsTableBody">
+                <tr><td colspan="8" style="text-align:center; padding:24px;">Memuat data trial...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- TAB 4: SINKRONISASI EA SPORTS FC (ID TERKUNCI) -->
+        <section class="tab-pane" id="tab-ea">
+          <div class="pane-header">
+            <div>
+              <h2>Integrasi Live EA Sports FC Pro Clubs</h2>
+              <p>Tarik statistik pertandingan, gol, assist, dan clean sheets langsung dari server EA.</p>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start;">
+            <!-- Left: Sync Control -->
+            <div class="config-form-card" style="max-width:none;">
+              <h3 style="font-size:16px; color:var(--gold-primary); margin-bottom:14px;">⚡ ID Klub EA (Terkunci)</h3>
+              
+              <!-- ID TERKUNCI PERMANEN -->
+              <div class="form-group">
+                <label>Club ID EA Pro Clubs:</label>
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="background:var(--bg-surface); padding:10px 18px; border-radius:10px; border:1px solid var(--border-gold); font-family:var(--font-heading); font-size:18px; color:var(--gold-light); font-weight:800; display:flex; align-items:center; gap:8px;">
+                    <span>🔒</span> <span id="lockedClubIdBadge">Memuat...</span>
+                  </div>
+                  <span style="font-size:12px; color:var(--text-muted);">(ID Klub dikunci secara permanen)</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Platform Game:</label>
+                <div style="background:var(--bg-surface); padding:10px 16px; border-radius:10px; border:1px solid var(--border-subtle); font-size:14px; color:var(--text-main); font-weight:600;" id="lockedPlatformBadge">
+                  common-gen5
+                </div>
+              </div>
+
+              <div style="display:flex; gap:10px; margin-top:20px;">
+                <button type="button" class="btn-save" id="btnSyncEaNow" style="padding:14px 20px; font-size:14px;">
+                  🔄 Tarik Data Sekarang (Live Sync)
+                </button>
+              </div>
+
+              <div id="eaSyncStatusAlert" class="alert-status"></div>
+
+              <div style="margin-top:20px; padding:14px; background:var(--bg-card); border-radius:10px; border:1px solid var(--border-subtle); font-size:12.5px; line-height:1.5;">
+                <b style="color:var(--gold-light);">💡 Aturan Sinkronisasi Otomatis:</b>
+                <p style="color:var(--text-muted); margin-top:4px;">
+                  Ketika disinkronkan, foto pemain, nomor punggung, dan bio kustom <b>TIDAK AKAN HILANG</b>. Pemain yang sudah keluar dari klub in-game akan otomatis dihapus dari daftar skuad.
+                </p>
+              </div>
+            </div>
+
+            <!-- Right: Fallback Import -->
+            <div style="display:flex; flex-direction:column; gap:20px;">
+              <!-- Fallback Manual Import -->
+              <div class="config-form-card" style="max-width:none;">
+                <h3 style="font-size:15px; color:var(--text-muted); margin-bottom:10px;">📋 Cadangan: Import Raw JSON EA</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+                  Jika server EA sedang terproteksi Cloudflare atau diblokir ISP, kamu bisa menempelkan respon JSON dari endpoint <code>members/stats</code> di sini.
+                </p>
+                <textarea id="rawJsonImportInput" rows="5" class="admin-textarea" placeholder="Paste data JSON array members di sini..."></textarea>
+                <button type="button" class="btn-save" id="btnImportRawJson" style="margin-top:10px; font-size:12.5px;">📥 Impor JSON</button>
+                <div id="rawJsonAlert" class="alert-status"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 5: TEMA WARNA KLUB (NEW) -->
+        <section class="tab-pane" id="tab-theme">
+          <div class="pane-header">
+            <div>
+              <h2>Kustomisasi Tema Warna Website</h2>
+              <p>Pilih preset palet warna siap pakai atau tentukan sendiri warna aksen klub Anda.</p>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start;">
+            <!-- Left: Presets & Pickers -->
+            <div class="config-form-card" style="max-width:none;">
+              <h3 style="font-size:16px; color:var(--gold-primary); margin-bottom:14px;">⚡ Preset Palet Siap Pakai</h3>
+              
+              <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-bottom:24px;">
+                <button type="button" class="btn-preset-select" data-preset="gold" style="padding:12px; border-radius:10px; border:1px solid rgba(245,186,49,0.4); background:#14120a; color:#F5BA31; text-align:left; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:10px;">
+                  <span style="width:18px; height:18px; border-radius:50%; background:#F5BA31; box-shadow:0 0 8px #F5BA31; display:inline-block;"></span>
+                  <span>👑 Lamball Gold</span>
+                </button>
+                <button type="button" class="btn-preset-select" data-preset="red" style="padding:12px; border-radius:10px; border:1px solid rgba(231,76,60,0.4); background:#140a0a; color:#E74C3C; text-align:left; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:10px;">
+                  <span style="width:18px; height:18px; border-radius:50%; background:#E74C3C; box-shadow:0 0 8px #E74C3C; display:inline-block;"></span>
+                  <span>🔴 Crimson Red</span>
+                </button>
+                <button type="button" class="btn-preset-select" data-preset="blue" style="padding:12px; border-radius:10px; border:1px solid rgba(0,210,211,0.4); background:#0a1214; color:#00D2D3; text-align:left; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:10px;">
+                  <span style="width:18px; height:18px; border-radius:50%; background:#00D2D3; box-shadow:0 0 8px #00D2D3; display:inline-block;"></span>
+                  <span>🔵 Royal Blue</span>
+                </button>
+                <button type="button" class="btn-preset-select" data-preset="green" style="padding:12px; border-radius:10px; border:1px solid rgba(46,204,113,0.4); background:#0a140d; color:#2ECC71; text-align:left; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:10px;">
+                  <span style="width:18px; height:18px; border-radius:50%; background:#2ECC71; box-shadow:0 0 8px #2ECC71; display:inline-block;"></span>
+                  <span>🟢 Emerald Green</span>
+                </button>
+                <button type="button" class="btn-preset-select" data-preset="purple" style="padding:12px; border-radius:10px; border:1px solid rgba(155,89,182,0.4); background:#120a14; color:#9B59B6; text-align:left; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:10px;">
+                  <span style="width:18px; height:18px; border-radius:50%; background:#9B59B6; box-shadow:0 0 8px #9B59B6; display:inline-block;"></span>
+                  <span>🟣 Neon Cyber</span>
+                </button>
+              </div>
+
+              <h3 style="font-size:16px; color:var(--gold-primary); margin-bottom:14px;">🎨 Pengaturan Warna Rinci</h3>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface); padding:10px 14px; border-radius:8px; border:1px solid var(--border-subtle);">
+                  <div>
+                    <div style="font-size:13.5px; font-weight:600;">Warna Utama (Primary)</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Aksen tombol, border, dan teks aksen</div>
+                  </div>
+                  <input type="color" id="themePrimaryInput" value="#F5BA31" style="width:44px; height:36px; border:none; border-radius:6px; cursor:pointer; background:transparent;">
+                </div>
+
+                <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface); padding:10px 14px; border-radius:8px; border:1px solid var(--border-subtle);">
+                  <div>
+                    <div style="font-size:13.5px; font-weight:600;">Warna Terang (Light)</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Highlight teks dan hover tombol</div>
+                  </div>
+                  <input type="color" id="themeLightInput" value="#FFD966" style="width:44px; height:36px; border:none; border-radius:6px; cursor:pointer; background:transparent;">
+                </div>
+
+                <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface); padding:10px 14px; border-radius:8px; border:1px solid var(--border-subtle);">
+                  <div>
+                    <div style="font-size:13.5px; font-weight:600;">Warna Pendaran Glow</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Efek neon glow pada kartu FUT & banner</div>
+                  </div>
+                  <input type="color" id="themeGlowInput" value="#FFD242" style="width:44px; height:36px; border:none; border-radius:6px; cursor:pointer; background:transparent;">
+                </div>
+
+                <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface); padding:10px 14px; border-radius:8px; border:1px solid var(--border-subtle);">
+                  <div>
+                    <div style="font-size:13.5px; font-weight:600;">Background Gelap (Deep)</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Warna dasar latar belakang website</div>
+                  </div>
+                  <input type="color" id="themeBgDeepInput" value="#0A0A0E" style="width:44px; height:36px; border:none; border-radius:6px; cursor:pointer; background:transparent;">
+                </div>
+
+                <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface); padding:10px 14px; border-radius:8px; border:1px solid var(--border-subtle);">
+                  <div>
+                    <div style="font-size:13.5px; font-weight:600;">Background Kartu (Card)</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Warna kartu pemain dan panel info</div>
+                  </div>
+                  <input type="color" id="themeBgCardInput" value="#181822" style="width:44px; height:36px; border:none; border-radius:6px; cursor:pointer; background:transparent;">
+                </div>
+              </div>
+
+              <button type="button" class="btn-save" id="btnSaveTheme" style="margin-top:20px; width:100%;">
+                💾 Terapkan & Simpan Tema Warna
+              </button>
+              <div id="themeStatusAlert" class="alert-status"></div>
+            </div>
+
+            <!-- Right: Live Preview Box -->
+            <div class="config-form-card" style="max-width:none;">
+              <h3 style="font-size:16px; color:var(--gold-primary); margin-bottom:14px;">👁️ Live Preview Website Klub</h3>
+              
+              <div id="themePreviewBox" style="background:#0A0A0E; border-radius:14px; padding:20px; border:1px solid rgba(245,186,49,0.35); box-shadow:0 10px 30px rgba(0,0,0,0.7); display:flex; flex-direction:column; gap:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span id="previewBadge" style="background:rgba(245,186,49,0.15); color:#FFD966; border:1px solid #F5BA31; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700;">DIVISI 1 ELITE</span>
+                  <span style="font-size:12px; color:#9D9DAE;">Live Preview</span>
+                </div>
+
+                <div id="previewCard" style="background:#181822; border-radius:12px; padding:16px; border:1px solid rgba(245,186,49,0.3); display:flex; align-items:center; gap:14px;">
+                  <div id="previewOvrBadge" style="width:48px; height:48px; border-radius:10px; background:linear-gradient(135deg, #F5BA31, #FFD242); color:#0A0A0E; font-family:var(--font-heading); font-size:22px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(245,186,49,0.5);">
+                    89
+                  </div>
+                  <div>
+                    <div id="previewPlayerName" style="font-family:var(--font-heading); font-size:16px; font-weight:800; color:#FBF8EE;">STRIKER UTAMA</div>
+                    <div id="previewPlayerPos" style="font-size:12px; color:#FFD966; font-weight:600;">ST · FINISHER · ★ MOTM</div>
+                  </div>
+                </div>
+
+                <button id="previewButton" type="button" style="background:linear-gradient(135deg, #F5BA31, #FFD966); color:#0A0A0E; border:none; padding:12px; border-radius:10px; font-family:var(--font-heading); font-weight:700; font-size:14px; cursor:default; box-shadow:0 4px 16px rgba(245,186,49,0.3);">
+                  ⚡ Contoh Tombol Aksi
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 6: PENGATURAN KLUB & NEXT MATCH -->
+        <section class="tab-pane" id="tab-config">
+          <div class="pane-header">
+            <div>
+              <h2>Jadwal Laga Berikutnya & Info Klub</h2>
+              <p>Atur banner countdown pertandingan berikutnya di halaman depan.</p>
+            </div>
+          </div>
+
+          <div class="config-form-card">
+            <form id="clubConfigForm">
+              <div class="form-group">
+                <label>Nama Lawan Berikutnya:</label>
+                <input type="text" id="cfgOpponent" required class="admin-input" placeholder="Contoh: Nocturne VFC">
+              </div>
+
+              <div class="form-group">
+                <label>Nama Kompetisi / Turnamen:</label>
+                <input type="text" id="cfgTournament" required class="admin-input" placeholder="Contoh: Asia Pro Clubs Championship - Quarterfinal">
+              </div>
+
+              <div class="form-group">
+                <label>Jadwal Kickoff (Tanggal & Jam):</label>
+                <input type="datetime-local" id="cfgDate" required class="admin-input">
+              </div>
+
+              <div class="form-group">
+                <label>Motto Klub:</label>
+                <input type="text" id="cfgMotto" class="admin-input" placeholder="Rolling to the Top! ⚡👑">
+              </div>
+
+              <div class="form-group">
+                <label>PIN Admin Baru (Kosongkan jika tidak diubah):</label>
+                <input type="password" id="cfgNewAdminPin" maxlength="8" class="admin-input" placeholder="••••">
+              </div>
+
+              <button type="submit" class="btn-save" id="btnSaveConfig">💾 Simpan Jadwal & Info</button>
+              <div id="configAlert" class="alert-status"></div>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL EDIT PEMAIN & UPLOAD FOTO -->
+  <div class="admin-modal-overlay" id="editPlayerModal">
+    <div class="admin-modal-card">
+      <button class="modal-close-btn" id="btnCloseEditPlayer">&times;</button>
+      <h3 id="editPlayerTitle">Edit Pemain</h3>
+
+      <form id="editPlayerForm" enctype="multipart/form-data">
+        <input type="hidden" id="editPlayerId" name="playerId">
+
+        <div class="player-photo-preview-wrap">
+          <img src="/images/logo.jpeg" alt="Foto Pemain" id="editPhotoPreview" class="photo-preview">
+          <div>
+            <label for="editPhotoInput" class="btn-upload-label">📸 Pilih Foto Transparan Baru</label>
+            <input type="file" id="editPhotoInput" name="photo" accept="image/png, image/jpeg, image/webp" style="display:none;">
+            <p class="upload-tip">Disarankan format PNG transparan atau WebP (Maks 5 MB).</p>
+          </div>
+        </div>
+
+        <div class="form-row2" style="grid-template-columns: 80px 80px 1fr;">
+          <div class="form-group">
+            <label>No. Punggung:</label>
+            <input type="number" id="editNumber" name="number" min="1" max="99" required class="admin-input">
+          </div>
+          <div class="form-group">
+            <label>OVR In-Game:</label>
+            <input type="number" id="editOvr" name="ovr" min="50" max="99" required class="admin-input" placeholder="88">
+          </div>
+          <div class="form-group">
+            <label>Nama Lengkap / Asli:</label>
+            <input type="text" id="editRealName" name="realName" required class="admin-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Peran di Tim:</label>
+          <input type="text" id="editRole" name="role" class="admin-input" placeholder="Contoh: Captain & Striker">
+        </div>
+
+        <div class="form-group">
+          <label>Bio Singkat Pemain:</label>
+          <textarea id="editBio" name="bio" rows="3" class="admin-textarea"></textarea>
+        </div>
+
+        <div class="checkbox-row">
+          <label class="custom-checkbox">
+            <input type="checkbox" id="editIsStartingXI" name="isStartingXI">
+            <span>Starting XI (Starter Lapangan)</span>
+          </label>
+          <label class="custom-checkbox">
+            <input type="checkbox" id="editIsCaptain" name="isCaptain">
+            <span>Kapten Tim (C)</span>
+          </label>
+        </div>
+
+        <div class="modal-footer-actions">
+          <button type="submit" class="btn-save" id="btnSavePlayer">💾 Simpan Perubahan</button>
+        </div>
+        <div id="editPlayerAlert" class="alert-status"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

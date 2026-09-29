@@ -1,0 +1,50 @@
+[
+  {
+    "id": "tr-1790581989735",
+    "eaId": "TestStriker",
+    "discordTag": "test#1234",
+    "platform": "PC",
+    "primaryPos": "ST",
+    "secondaryPos": "LW",
+    "archetype1": "Finisher",
+    "level1": 30,
+    "archetype2": "",
+    "level2": null,
+    "experience": "Testing form submission",
+    "status": "pending",
+    "appliedAt": "2026-09-28T07:53:09.735Z",
+    "adminNotes": ""
+  },
+  {
+    "id": "tr-101",
+    "eaId": "KurokoNoPass",
+    "discordTag": "kuroko#8899",
+    "platform": "PC",
+    "primaryPos": "CAM",
+    "secondaryPos": "CM",
+    "archetype1": "Maestro",
+    "level1": 30,
+    "archetype2": "Creator",
+    "level2": 24,
+    "experience": "Eks pemain Akademi Thunder FC selama 2 musim. Sering main jam 21.00 - 01.00 WIB.",
+    "status": "approved",
+    "appliedAt": "2026-09-26T14:20:00+07:00",
+    "adminNotes": "Jadwal mabar trial hari Selasa jam 22.00."
+  },
+  {
+    "id": "tr-102",
+    "eaId": "WallBreaker_9",
+    "discordTag": "reza_striker",
+    "platform": "PlayStation 5",
+    "primaryPos": "CB",
+    "secondaryPos": "CDM",
+    "archetype1": "Boss",
+    "level1": 32,
+    "archetype2": "Disruptor",
+    "level2": 28,
+    "experience": "Pernah ikut turnamen regional Pro Clubs Jabodetabek.",
+    "status": "pending",
+    "appliedAt": "2026-09-27T19:45:00+07:00",
+    "adminNotes": ""
+  }
+]

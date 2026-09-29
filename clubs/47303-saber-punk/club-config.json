@@ -1,0 +1,120 @@
+{
+  "club": {
+    "slug": "47303-saber-punk",
+    "name": "Saber Punk",
+    "shortName": "SAB",
+    "motto": "mantab",
+    "division": 1,
+    "divisionName": "Elite Division",
+    "platform": "common-gen5",
+    "eaClubId": "47303",
+    "adminPin": "1234",
+    "eaAutoSync": true,
+    "logo": "/clubs/47303-saber-punk/images/logo.jpeg",
+    "stats": {
+      "matches": 72,
+      "wins": 43,
+      "draws": 9,
+      "losses": 20,
+      "goalsFor": 192,
+      "goalsAgainst": 114,
+      "skillRating": 1771,
+      "cleanSheets": 0,
+      "winRate": 60
+    },
+    "nextMatch": {
+      "opponent": "Friendly Opponent",
+      "date": "2026-10-01T09:23:09.388Z",
+      "tournament": "Weekly Scrimmage",
+      "isLive": false
+    }
+  },
+  "theme": {
+    "preset": "green",
+    "primary": "#63b658",
+    "light": "#d980fa",
+    "glow": "#8854d0",
+    "bgDeep": "#0f0a14",
+    "bgSurface": "#0E1F16",
+    "bgCard": "#22182b",
+    "text": "#F0FFF4"
+  },
+  "formation": {
+    "name": "4-2-3-1",
+    "tactics": "Balanced Possession",
+    "startingXI": [
+      {
+        "slot": "GK",
+        "playerId": "p-1790673791826-2",
+        "x": 50,
+        "y": 88
+      },
+      {
+        "slot": "LB",
+        "playerId": "p-1790673791826-5",
+        "x": 16,
+        "y": 72
+      },
+      {
+        "slot": "CB1",
+        "playerId": "p-1790673791826-17",
+        "x": 38,
+        "y": 74
+      },
+      {
+        "slot": "CB2",
+        "playerId": "p-1790673791826-14",
+        "x": 62,
+        "y": 74
+      },
+      {
+        "slot": "RB",
+        "playerId": "p-1790673791826-21",
+        "x": 84,
+        "y": 72
+      },
+      {
+        "slot": "LDM",
+        "playerId": "p-1790673791826-1",
+        "x": 35,
+        "y": 55
+      },
+      {
+        "slot": "RDM",
+        "playerId": "p-1790673791826-25",
+        "x": 65,
+        "y": 55
+      },
+      {
+        "slot": "LAM",
+        "playerId": "p-1790673791826-12",
+        "x": 20,
+        "y": 35
+      },
+      {
+        "slot": "CAM",
+        "playerId": "p-1790673791826-23",
+        "x": 50,
+        "y": 32
+      },
+      {
+        "slot": "RAM",
+        "playerId": "p-1790673791826-4",
+        "x": 80,
+        "y": 35
+      },
+      {
+        "slot": "ST",
+        "playerId": "p-1790673791826-24",
+        "x": 50,
+        "y": 14
+      }
+    ]
+  },
+  "socials": {
+    "discord": "",
+    "instagram": "",
+    "tiktok": "",
+    "streamers": []
+  }
+}

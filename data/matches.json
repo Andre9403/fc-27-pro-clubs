@@ -1,0 +1,182 @@
+[
+  {
+    "id": "m1",
+    "date": "2026-09-27T22:30:00+07:00",
+    "competition": "Elite League Division 1",
+    "opponent": "Nocturne VFC",
+    "opponentCrestId": "3001",
+    "scoreHome": 3,
+    "scoreAway": 1,
+    "result": "win",
+    "motm": "GoldenStrike",
+    "highlightUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "stats": {
+      "shotsHome": 12,
+      "shotsAway": 6,
+      "possessionHome": 56,
+      "possessionAway": 44,
+      "tacklesHome": 18,
+      "tacklesAway": 12,
+      "passSuccessHome": 86,
+      "passSuccessAway": 81
+    },
+    "scorers": [
+      {
+        "minute": 18,
+        "player": "GoldenStrike",
+        "assist": "MaestroWool"
+      },
+      {
+        "minute": 44,
+        "player": "VoltFlank",
+        "assist": "BallaBox"
+      },
+      {
+        "minute": 82,
+        "player": "GoldenStrike",
+        "assist": "SpeedyWool"
+      }
+    ]
+  },
+  {
+    "id": "m2",
+    "date": "2026-09-26T21:15:00+07:00",
+    "competition": "Elite League Division 1",
+    "opponent": "Garuda Apex",
+    "opponentCrestId": "3002",
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "result": "win",
+    "motm": "HandsOfGod",
+    "highlightUrl": "",
+    "stats": {
+      "shotsHome": 9,
+      "shotsAway": 8,
+      "possessionHome": 49,
+      "possessionAway": 51,
+      "tacklesHome": 22,
+      "tacklesAway": 14,
+      "passSuccessHome": 83,
+      "passSuccessAway": 79
+    },
+    "scorers": [
+      {
+        "minute": 31,
+        "player": "ThunderKid",
+        "assist": "GoldenStrike"
+      },
+      {
+        "minute": 88,
+        "player": "SupersubLamb",
+        "assist": "NightCrow"
+      }
+    ]
+  },
+  {
+    "id": "m3",
+    "date": "2026-09-25T23:00:00+07:00",
+    "competition": "Elite League Division 1",
+    "opponent": "Valkyrie FC",
+    "opponentCrestId": "3003",
+    "scoreHome": 2,
+    "scoreAway": 2,
+    "result": "draw",
+    "motm": "MaestroWool",
+    "highlightUrl": "",
+    "stats": {
+      "shotsHome": 11,
+      "shotsAway": 10,
+      "possessionHome": 52,
+      "possessionAway": 48,
+      "tacklesHome": 15,
+      "tacklesAway": 17,
+      "passSuccessHome": 85,
+      "passSuccessAway": 84
+    },
+    "scorers": [
+      {
+        "minute": 14,
+        "player": "GoldenStrike",
+        "assist": "MaestroWool"
+      },
+      {
+        "minute": 73,
+        "player": "MaestroWool",
+        "assist": "VoltFlank"
+      }
+    ]
+  },
+  {
+    "id": "m4",
+    "date": "2026-09-24T21:45:00+07:00",
+    "competition": "Champions Cup - Round of 16",
+    "opponent": "Spartanzz ID",
+    "opponentCrestId": "3004",
+    "scoreHome": 4,
+    "scoreAway": 1,
+    "result": "win",
+    "motm": "GoldenStrike",
+    "highlightUrl": "",
+    "stats": {
+      "shotsHome": 15,
+      "shotsAway": 5,
+      "possessionHome": 58,
+      "possessionAway": 42,
+      "tacklesHome": 19,
+      "tacklesAway": 11,
+      "passSuccessHome": 88,
+      "passSuccessAway": 78
+    },
+    "scorers": [
+      {
+        "minute": 9,
+        "player": "VoltFlank",
+        "assist": "MaestroWool"
+      },
+      {
+        "minute": 26,
+        "player": "GoldenStrike",
+        "assist": "ThunderKid"
+      },
+      {
+        "minute": 61,
+        "player": "GoldenStrike",
+        "assist": "IronLamb"
+      },
+      {
+        "minute": 85,
+        "player": "BallaBox",
+        "assist": "SupersubLamb"
+      }
+    ]
+  },
+  {
+    "id": "m5",
+    "date": "2026-09-23T22:00:00+07:00",
+    "competition": "Elite League Division 1",
+    "opponent": "Cyber Wolves",
+    "opponentCrestId": "3005",
+    "scoreHome": 1,
+    "scoreAway": 2,
+    "result": "loss",
+    "motm": "Lawan (Wolves Striker)",
+    "highlightUrl": "",
+    "stats": {
+      "shotsHome": 8,
+      "shotsAway": 11,
+      "possessionHome": 47,
+      "possessionAway": 53,
+      "tacklesHome": 16,
+      "tacklesAway": 20,
+      "passSuccessHome": 81,
+      "passSuccessAway": 84
+    },
+    "scorers": [
+      {
+        "minute": 54,
+        "player": "GoldenStrike",
+        "assist": "VoltFlank"
+      }
+    ]
+  }
+]

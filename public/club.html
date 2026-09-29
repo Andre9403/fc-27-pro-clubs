@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Official EA Sports FC Pro Clubs Hub</title>
+  <meta name="description" content="Website resmi Lamball VFC - Klub EA Sports FC Pro Clubs. Skuad, formasi taktis 11 vs 11, statistik pemain, hasil laga, dan pendaftaran trial.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/jpeg" href="/images/logo.jpeg">
+</head>
+<body>
+
+  <!-- Background Ambience & Stadium Lights -->
+  <div class="bg-ambience"></div>
+  <div class="bg-particles"></div>
+
+  <!-- STICKY HEADER -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#hero" class="brand-logo">
+        <img src="/images/logo.jpeg" alt="Logo Klub" class="logo-img" id="clubHeaderLogo">
+        <div class="brand-text">
+          <span class="brand-name" id="clubHeaderName">EA FC <b>PRO CLUB</b></span>
+          <span class="brand-sub">EAFC PRO CLUBS</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="main-nav" id="mainNav">
+        <button class="nav-btn active" data-target="sec-skuad">⚡ Skuad</button>
+        <button class="nav-btn" data-target="sec-taktik">🏟️ Formasi</button>
+        <button class="nav-btn" data-target="sec-statistik">📊 Statistik</button>
+        <button class="nav-btn" data-target="sec-laga">📺 Laga & Klip</button>
+        <button class="nav-btn" data-target="sec-jersey">👕 Jersey</button>
+        <button class="nav-btn" data-target="sec-trial">📝 Trial</button>
+        <button class="nav-btn" data-target="sec-komunitas">💬 Sosmed</button>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/" class="btn-portal-link" style="text-decoration:none; color:var(--text-muted); font-size:13px; font-weight:600; padding:8px 14px; border-radius:8px; border:1px solid var(--border-subtle); display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.04); transition:all 0.2s ease;">
+          <span>🌐</span> Cari Klub
+        </a>
+        <a href="admin/" class="btn-admin-link" id="clubAdminLink" title="Buka Dashboard Admin">
+          <span>⚙️ Admin Panel</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH MATCH COUNTDOWN & CLUB BADGE -->
+  <section class="hero-section" id="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span id="heroDivision">DIVISI 1 ELITE · ASIA LEAGUE</span>
+        </div>
+        <h1 class="hero-title">
+          ROLLING TO THE TOP!
+          <span class="gold-gradient-text">LAMBALL VFC</span>
+        </h1>
+        <p class="hero-subtitle">
+          Klub resmi EA Sports FC Pro Clubs asal Indonesia. Kompak, tangguh, dan pantang menyerah menguasai setiap jengkal lapangan hijau.
+        </p>
+
+        <!-- Quick KPI Strip -->
+        <div class="hero-kpi-strip" id="heroKpiStrip">
+          <div class="kpi-item">
+            <span class="kpi-val" id="kpiMatches">70</span>
+            <span class="kpi-lbl">Total Laga</span>
+          </div>
+          <div class="kpi-item">
+            <span class="kpi-val highlight" id="kpiWinRate">60%</span>
+            <span class="kpi-lbl">Win Rate</span>
+          </div>
+          <div class="kpi-item">
+            <span class="kpi-val" id="kpiGoals">184</span>
+            <span class="kpi-lbl">Gol Klub</span>
+          </div>
+          <div class="kpi-item">
+            <span class="kpi-val" id="kpiCleanSheets">24</span>
+            <span class="kpi-lbl">Clean Sheets</span>
+          </div>
+          <div class="kpi-item">
+            <span class="kpi-val gold" id="kpiSkill">1,845</span>
+            <span class="kpi-lbl">Skill Rating</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Next Match Card -->
+      <div class="hero-next-match-card">
+        <div class="card-glass-glow"></div>
+        <div class="match-card-header">
+          <span class="tag-next">⚡ NEXT MATCH</span>
+          <span class="match-comp" id="nextMatchComp">Asia Pro Clubs Championship</span>
+        </div>
+        <div class="match-versus-row">
+          <div class="team-block home">
+            <img src="/images/logo.jpeg" alt="Lamball VFC" class="team-crest">
+            <span class="team-name">LAMBALL</span>
+          </div>
+          <div class="vs-block">
+            <span class="vs-text">VS</span>
+            <div class="countdown-timer" id="countdownTimer">
+              <div class="cd-item"><b id="cdHours">02</b><small>Jam</small></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-item"><b id="cdMins">45</b><small>Mnt</small></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-item"><b id="cdSecs">30</b><small>Dtk</small></div>
+            </div>
+          </div>
+          <div class="team-block away">
+            <div class="crest-placeholder" id="nextOpponentCrest">
+              <span>N</span>
+            </div>
+            <span class="team-name" id="nextOpponentName">NOCTURNE</span>
+          </div>
+        </div>
+        <div class="match-card-footer">
+          <span class="kickoff-time" id="kickoffTime">📅 Rabu, 30 Sep 2026 · 21:00 WIB</span>
+          <a href="#sec-trial" class="btn-rsvp">🔥 Gabung Tim</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-content">
+
+    <!-- 1. SECTION: SKUAD & KARTU FUT INTERAKTIF -->
+    <section class="page-section active" id="sec-skuad">
+      <div class="section-header">
+        <div class="header-titles">
+          <span class="eyebrow">ROSTER RESMI · MUSIM 2026/27</span>
+          <h2 class="section-title">Kartu Skuad <span class="gold-gradient-text">Lamball VFC</span></h2>
+        </div>
+        <p class="section-desc">
+          Sorot kursor atau sentuh kartu pemain untuk melihat efek 3D Parallax Tilt, dan klik untuk membuka rincian statistik performa in-game.
+        </p>
+      </div>
+
+      <!-- Awards Podium Highlights -->
+      <div class="awards-podium" id="awardsPodium">
+        <!-- Top Scorer -->
+        <div class="award-card gold-border">
+          <div class="award-icon">⚡</div>
+          <div class="award-info">
+            <span class="award-badge">GOLDEN HORN · TOP SCORER</span>
+            <h3 class="award-name" id="topScorerName">GoldenStrike</h3>
+            <p class="award-stat"><b id="topScorerVal">74</b> Gol <small>/ 68 Laga</small></p>
+          </div>
+        </div>
+        <!-- POTS -->
+        <div class="award-card crown-border highlight-card">
+          <div class="award-icon">👑</div>
+          <div class="award-info">
+            <span class="award-badge-crown">PLAYER OF THE SEASON</span>
+            <h3 class="award-name" id="potsName">GoldenStrike</h3>
+            <p class="award-stat">Rating <b>7.9</b> · MOTM <b>14x</b></p>
+          </div>
+        </div>
+        <!-- Top Assist -->
+        <div class="award-card gold-border">
+          <div class="award-icon">🧠</div>
+          <div class="award-info">
+            <span class="award-badge">MAESTRO PASS · TOP ASSIST</span>
+            <h3 class="award-name" id="topAssistName">MaestroWool</h3>
+            <p class="award-stat"><b id="topAssistVal">41</b> Assist <small>/ 65 Laga</small></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter & Sort Bar -->
+      <div class="filter-sort-bar">
+        <div class="filter-tabs" id="posFilterTabs">
+          <button class="filter-btn active" data-pos="ALL">Semua</button>
+          <button class="filter-btn" data-pos="FWD">Penyerang</button>
+          <button class="filter-btn" data-pos="MID">Gelandang</button>
+          <button class="filter-btn" data-pos="DEF">Bertahan</button>
+          <button class="filter-btn" data-pos="GK">Kiper</button>
+        </div>
+        <div class="sort-select-wrap">
+          <label for="sortPlayerSelect">Urutkan:</label>
+          <select id="sortPlayerSelect" class="custom-select">
+            <option value="ovr">Overall Rating (OVR)</option>
+            <option value="gol">Gol Terbanyak</option>
+            <option value="assist">Assist Terbanyak</option>
+            <option value="main">Laga Terbanyak</option>
+            <option value="rating">Rating Rata-rata</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Squad Cards Grid -->
+      <div class="squad-grid" id="squadGrid">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- 2. SECTION: TACTICAL PITCH (FORMASI LAPANGAN) -->
+    <section class="page-section" id="sec-taktik">
+      <div class="section-header">
+        <div class="header-titles">
+          <span class="eyebrow">TAKTIK & SUSUNAN LAPANGAN</span>
+          <h2 class="section-title">Formasi <span class="gold-gradient-text" id="formationNameTitle">4-2-3-1</span></h2>
+        </div>
+        <p class="section-desc">
+          Tampilan taktis lapangan hijau modern. Klik kartu pemain di posisi lapangan untuk melihat peran dan statistiknya.
+        </p>
+      </div>
+
+      <!-- Pitch Controls -->
+      <div class="pitch-controls">
+        <div class="tactic-info-chip">
+          <span class="chip-label">Gaya Bermain:</span>
+          <b id="tacticsStyle">High Press & Quick Counter</b>
+        </div>
+        <div class="pitch-mode-toggle">
+          <button class="toggle-btn active" id="btnPitchStarters">Starting XI Lapangan</button>
+          <button class="toggle-btn" id="btnPitchSubs">Bangku Cadangan (Bench)</button>
+        </div>
+      </div>
+
+      <!-- Tactical Pitch Container -->
+      <div class="tactical-pitch-wrapper">
+        <div class="football-pitch" id="footballPitch">
+          <!-- Pitch Grass Lines & Markings -->
+          <div class="pitch-lines">
+            <div class="half-line"></div>
+            <div class="center-circle"></div>
+            <div class="center-spot"></div>
+            <div class="penalty-box top">
+              <div class="six-yard-box top"></div>
+              <div class="penalty-arc top"></div>
+            </div>
+            <div class="penalty-box bottom">
+              <div class="six-yard-box bottom"></div>
+              <div class="penalty-arc bottom"></div>
+            </div>
+          </div>
+
+          <!-- Pitch Player Tokens (Rendered via JS) -->
+          <div class="pitch-players-layer" id="pitchPlayersLayer"></div>
+        </div>
+
+        <!-- Pitch Sidebar Panel -->
+        <div class="pitch-sidebar">
+          <h3 class="sidebar-title">⚡ Taktik Lini Lamball</h3>
+          <div class="line-tactic-card">
+            <div class="line-header">
+              <span class="line-badge atk">Lini Serang</span>
+              <b>Deadly Overload</b>
+            </div>
+            <p>Memanfaatkan kecepatan sayap kiri & kanan dengan false-9 decoy untuk membuka ruang tembak striker.</p>
+          </div>
+          <div class="line-tactic-card">
+            <div class="line-header">
+              <span class="line-badge mid">Lini Tengah</span>
+              <b>Double Pivot Shield</b>
+            </div>
+            <p>Kombinasi gelandang perusak (Disruptor) dan pengatur tempo (Recycler) untuk sirkulasi bola konstan.</p>
+          </div>
+          <div class="line-tactic-card">
+            <div class="line-header">
+              <span class="line-badge def">Lini Belakang</span>
+              <b>Compact Low Block</b>
+            </div>
+            <p>Dua bek tengah fisik tinggi menjaga area penalti dengan tekel bersih dan sweeping kiper proaktif.</p>
+          </div>
+
+          <!-- Substitutes Mini List -->
+          <div class="bench-preview-box">
+            <h4 class="bench-title">🔄 Bangku Cadangan (Bench):</h4>
+            <div class="bench-chips" id="benchChips"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SECTION: STATISTIK LENGKAP & LEADERBOARD -->
+    <section class="page-section" id="sec-statistik">
+      <div class="section-header">
+        <div class="header-titles">
+          <span class="eyebrow">REKAP PERFORMA KOMPREHENSIF</span>
+          <h2 class="section-title">Leaderboard <span class="gold-gradient-text">Statistik Anggota</span></h2>
+        </div>
+        <p class="section-desc">
+          Tabel performa seluruh punggawa Lamball VFC. Klik kepala kolom mana saja untuk menyortir data dari tertinggi ke terendah.
+        </p>
+      </div>
+
+      <!-- Search in Table -->
+      <div class="table-search-bar">
+        <input type="text" id="statSearchInput" placeholder="🔍 Cari nama pemain atau nomor..." class="custom-input">
+        <div class="table-legend">
+          <span>* M: Main</span>
+          <span>* G: Gol</span>
+          <span>* A: Assist</span>
+          <span>* R: Rating EA</span>
+          <span>* CS: Clean Sheet</span>
+        </div>
+      </div>
+
+      <!-- Leaderboard Table Container -->
+      <div class="table-wrapper">
+        <table class="custom-table" id="statsTable">
+          <thead>
+            <tr>
+              <th data-key="number" class="sortable"># <span class="sort-arrow"></span></th>
+              <th data-key="name" class="sortable">Pemain <span class="sort-arrow"></span></th>
+              <th data-key="pos" class="sortable">Posisi <span class="sort-arrow"></span></th>
+              <th data-key="ovr" class="sortable active-sort">OVR <span class="sort-arrow">▼</span></th>
+              <th data-key="main" class="sortable">M <span class="sort-arrow"></span></th>
+              <th data-key="gol" class="sortable">G <span class="sort-arrow"></span></th>
+              <th data-key="assist" class="sortable">A <span class="sort-arrow"></span></th>
+              <th data-key="rating" class="sortable">Rating <span class="sort-arrow"></span></th>
+              <th data-key="winRate" class="sortable">Win % <span class="sort-arrow"></span></th>
+              <th data-key="passAkurasi" class="sortable">Pass % <span class="sort-arrow"></span></th>
+              <th data-key="tekelAkurasi" class="sortable">Tekel % <span class="sort-arrow"></span></th>
+              <th data-key="motmMusim" class="sortable">MOTM <span class="sort-arrow"></span></th>
+              <th>Archetype</th>
+            </tr>
+          </thead>
+          <tbody id="statsTableBody">
+            <!-- Dynamic Rows -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. SECTION: MATCH CENTER & VIDEO HIGHLIGHTS -->
+    <section class="page-section" id="sec-laga">
+      <div class="section-header">
+        <div class="header-titles">
+          <span class="eyebrow">REKAP PERTANDINGAN & KLIP GOL</span>
+          <h2 class="section-title">Match Center <span class="gold-gradient-text">& Highlights</span></h2>
+        </div>
+        <p class="section-desc">
+          Riwayat laga terakhir klub, lengkap dengan statistik siaran TV, pencetak gol, dan video highlight pertandingan.
+        </p>
+      </div>
+
+      <!-- Matches List -->
+      <div class="matches-list" id="matchesList">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- 5. SECTION: JERSEY SHOWCASE & CUSTOM NAME GENERATOR -->
+    <section class="page-section" id="sec-jersey">
+      <div class="section-header">
+        <div class="header-titles">
+          <span class="eyebrow">OFFICIAL KITS MUSIM 2026/27</span>
+          <h2 class="section-title">Jersey <span class="gold-gradient-text">Lamball VFC</span></h2>
+        </div>
+        <p class="section-desc">
+          Koleksi jersey resmi Home (Hitam Emas) dan Away (Putih Emas). Ketik nama dan nomor favoritmu untuk membuat kartu jersey suporter!
+        </p>
+      </div>
+
+      <div class="jersey-generator-layout">
+        <!-- Left: Kit Selector & Customizer Form -->
+        <div class="jersey-controls-card">
+          <h3 class="controls-title">✨ Generator Jersey Fans</h3>
+          
+          <div class="form-group">
+            <label>Pilih Tipe Jersey:</label>
+            <div class="kit-type-selector">
+              <button class="kit-btn active" data-kit="home">
+                <span class="kit-swatch home"></span>
+                Home (Obsidian Gold)
+              </button>
+              <button class="kit-btn" data-kit="away">
+                <span class="kit-swatch away"></span>
+                Away (Ivory Gold)
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="customJerseyName">Nama di Punggung (Maks 12 Huruf):</label>
+            <input type="text" id="customJerseyName" value="LAMBALL" maxlength="12" class="custom-input" placeholder="Contoh: ARYA / KEVIN">
+          </div>
+
+          <div class="form-group">
+            <label for="customJerseyNumber">Nomor Punggung (1 - 99):</label>
+            <input type="number" id="customJerseyNumber" value="10" min="1" max="99" class="custom-input">
+          </div>
+
+          <div class="generator-actions">
+            <button class="btn-primary" id="btnDownloadJersey">📥 Download Kartu Jersey</button>
+          </div>
+        </div>
+
+        <!-- Right: Live Canvas Mockup -->
+        <div class="jersey-preview-card">
+          <div class="jersey-mockup-wrapper" id="jerseyMockupWrapper">
+            <canvas id="jerseyCanvas" width="480" height="580"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SECTION: TRIAL FORMULIR PENDAFTARAN -->
+    <section class="page-section" id="sec-trial">
+      <div class="section-header">
+        <div class="header-titles">
+          <span class="eyebrow">REKRUTMEN TERBUKA</span>
+          <h2 class="section-title">Gabung Skuad <span class="gold-gradient-text">Lamball VFC</span></h2>
+        </div>
+        <p class="section-desc">
+          Kamu pemain kompetitif EA Sports FC Pro Clubs? Isi formulir pendaftaran di bawah ini untuk mengikuti seleksi mabar trial bersama kapten tim.
+        </p>
+      </div>
+
+      <div class="trial-card-container">
+        <form class="trial-form" id="trialForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="trialEaId">ID Akun EA Sports FC *</label>
+              <input type="text" id="trialEaId" name="eaId" required class="custom-input" placeholder="Contoh: StrikeKing_99">
+            </div>
+            <div class="form-group">
+              <label for="trialDiscord">Username Discord *</label>
+              <input type="text" id="trialDiscord" name="discordTag" required class="custom-input" placeholder="Contoh: arya#1234 atau arya.gg">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="trialPlatform">Platform Main *</label>
+              <select id="trialPlatform" name="platform" class="custom-select" required>
+                <option value="PC">PC (Steam / EA App)</option>
+                <option value="PlayStation 5">PlayStation 5</option>
+                <option value="Xbox Series X/S">Xbox Series X/S</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="trialPrimaryPos">Posisi Utama *</label>
+              <select id="trialPrimaryPos" name="primaryPos" class="custom-select" required>
+                <option value="">-- Pilih Posisi --</option>
+                <option value="ST">ST — Penyerang Murni</option>
+                <option value="LW/RW">LW / RW — Sayap Cepat</option>
+                <option value="CAM">CAM — Gelandang Serang</option>
+                <option value="CM">CM — Gelandang Tengah</option>
+                <option value="CDM">CDM — Gelandang Bertahan</option>
+                <option value="LB/RB">LB / RB — Bek Sayap</option>
+                <option value="CB">CB — Bek Tengah</option>
+                <option value="GK">GK — Kiper</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="trialSecondaryPos">Posisi Cadangan / Kedua</label>
+              <select id="trialSecondaryPos" name="secondaryPos" class="custom-select">
+                <option value="–">– Tidak ada –</option>
+                <option value="ST">ST — Penyerang Murni</option>
+                <option value="LW/RW">LW / RW — Sayap Cepat</option>
+                <option value="CAM">CAM — Gelandang Serang</option>
+                <option value="CM">CM — Gelandang Tengah</option>
+                <option value="CDM">CDM — Gelandang Bertahan</option>
+                <option value="LB/RB">LB / RB — Bek Sayap</option>
+                <option value="CB">CB — Bek Tengah</option>
+                <option value="GK">GK — Kiper</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="trialArchetype1">Archetype Utama</label>
+              <select id="trialArchetype1" name="archetype1" class="custom-select">
+                <option value="">-- Pilih Archetype --</option>
+                <option value="Finisher">Finisher (Penyerang Tajam)</option>
+                <option value="Target">Target (Penyerang Fisik)</option>
+                <option value="Magician">Magician (Dribbler/Winger)</option>
+                <option value="Spark">Spark (Akselerasi Kilat)</option>
+                <option value="Maestro">Maestro (Playmaker Vision)</option>
+                <option value="Creator">Creator (Umpan Silang)</option>
+                <option value="Recycler">Recycler (Box-to-Box)</option>
+                <option value="Disruptor">Disruptor (Pemutus Serangan)</option>
+                <option value="Boss">Boss (Bek Postur Kokoh)</option>
+                <option value="Progressor">Progressor (Ball-playing Defender)</option>
+                <option value="Marauder">Marauder (Bek Sayap Cepat)</option>
+                <option value="Shot Stopper">Shot Stopper (Kiper Refleks)</option>
+                <option value="Sweeper Keeper">Sweeper Keeper (Kiper Aktif)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="trialExp">Pengalaman Bermain & Jam Aktif Mabar</label>
+            <textarea id="trialExp" name="experience" class="custom-textarea" rows="3" placeholder="Pernah main di klub mana, turnamen yang pernah diikuti, dan jam berapa biasanya bisa online..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary full-width" id="btnSubmitTrial">
+            <span>🚀 Kirim Formulir Pendaftaran Trial</span>
+          </button>
+          <div id="trialFormAlert" class="form-alert"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 7. SECTION: KOMUNITAS & MEDIA SOSIAL -->
+    <section class="page-section" id="sec-komunitas">
+      <div class="section-header">
+        <div class="header-titles">
+          <span class="eyebrow">KOMUNITAS & MEDIA RESMI</span>
+          <h2 class="section-title">Media Sosial <span class="gold-gradient-text">Lamball VFC</span></h2>
+        </div>
+        <p class="section-desc">
+          Bergabunglah dengan server Discord kami untuk mabar kasual, nonton bareng live turnamen, dan menyapa para pemain.
+        </p>
+      </div>
+
+      <div class="community-grid">
+        <!-- Discord Card -->
+        <div class="social-card discord-card">
+          <div class="social-icon">💬</div>
+          <h3>Discord Server Resmi</h3>
+          <p>Kanal koordinasi jadwal latihan, voice channel mabar Pro Clubs, dan pengumuman turnamen.</p>
+          <a href="https://discord.gg/lamballvfc" target="_blank" rel="noopener" class="social-btn discord-btn">
+            Join Discord Lamball VFC
+          </a>
+        </div>
+
+        <!-- Instagram Card -->
+        <div class="social-card instagram-card">
+          <div class="social-icon">📸</div>
+          <h3>Instagram Resmi</h3>
+          <p>Highlight gol-gol indah, poster matchday, pengumuman skuad mingguan, dan foto behind-the-scenes.</p>
+          <a href="https://instagram.com/lamballvfc" target="_blank" rel="noopener" class="social-btn ig-btn">
+            Follow @lamballvfc
+          </a>
+        </div>
+      </div>
+
+      <!-- Streamers List -->
+      <h3 class="subsection-title">🎥 Official Streamers Lamball VFC</h3>
+      <div class="streamers-grid" id="streamersGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: DETAIL PROFIL PEMAIN -->
+  <div class="modal-overlay" id="playerModal">
+    <div class="modal-card">
+      <button class="modal-close" id="btnClosePlayerModal">&times;</button>
+      <div class="modal-body" id="playerModalBody">
+        <!-- Dynamic Player Profile Content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETAIL & RAPOR PERTANDINGAN (MATCH CENTER MODAL) -->
+  <div class="modal-overlay" id="matchDetailModal" style="display:none;">
+    <div class="modal-card match-modal-card">
+      <button class="modal-close" id="btnCloseMatchModal">&times;</button>
+      <div class="modal-body" id="matchModalBody">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: VIDEO HIGHLIGHT PLAYER -->
+  <div class="modal-overlay" id="videoModal">
+    <div class="modal-card video-modal-card">
+      <button class="modal-close" id="btnCloseVideoModal">&times;</button>
+      <div class="video-container" id="videoContainer">
+        <!-- Iframe or Video Tag -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="/images/logo.jpeg" alt="Logo" class="footer-logo">
+        <div>
+          <b>LAMBALL VFC</b>
+          <p>Official EA Sports FC Pro Clubs Esports Hub · Indonesia</p>
+        </div>
+      </div>
+      <div class="footer-links">
+        <span>Platform: common-gen5 (PS5 / Xbox Series / PC)</span>
+        <span>•</span>
+        <a href="/admin.html">Admin Area</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 Lamball VFC. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/club.js"></script>
+</body>
+</html>

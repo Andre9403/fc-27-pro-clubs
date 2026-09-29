@@ -1,0 +1,120 @@
+{
+  "club": {
+    "name": "Lamball VFC",
+    "shortName": "LAM",
+    "motto": "Rolling to the Top! ⚡👑",
+    "division": 1,
+    "divisionName": "Elite Division",
+    "platform": "common-gen5",
+    "eaClubId": "654678",
+    "eaAutoSync": true,
+    "stats": {
+      "matches": 48,
+      "wins": 17,
+      "draws": 8,
+      "losses": 23,
+      "goalsFor": 83,
+      "goalsAgainst": 113,
+      "skillRating": 1474,
+      "cleanSheets": 24,
+      "winRate": 35
+    },
+    "nextMatch": {
+      "opponent": "Nocturne VFC",
+      "date": "2026-09-30T14:00:00.000Z",
+      "tournament": "Asia Pro Clubs Championship - Quarterfinal",
+      "isLive": false
+    }
+  },
+  "formation": {
+    "name": "4-2-3-1",
+    "tactics": "High Press & Quick Counter",
+    "startingXI": [
+      {
+        "slot": "GK",
+        "playerId": "p-1790583622683-4",
+        "x": 50,
+        "y": 88
+      },
+      {
+        "slot": "LB",
+        "playerId": "p-1790583622683-9",
+        "x": 16,
+        "y": 72
+      },
+      {
+        "slot": "CB1",
+        "playerId": "p-1790583622683-5",
+        "x": 38,
+        "y": 74
+      },
+      {
+        "slot": "CB2",
+        "playerId": "p-1790583622683-6",
+        "x": 62,
+        "y": 74
+      },
+      {
+        "slot": "RB",
+        "playerId": "p-1790583622683-8",
+        "x": 84,
+        "y": 72
+      },
+      {
+        "slot": "LDM",
+        "playerId": "p-1790583622683-10",
+        "x": 35,
+        "y": 55
+      },
+      {
+        "slot": "RDM",
+        "playerId": "p-1790583622683-3",
+        "x": 65,
+        "y": 55
+      },
+      {
+        "slot": "LAM",
+        "playerId": "p-1790583622683-1",
+        "x": 20,
+        "y": 35
+      },
+      {
+        "slot": "CAM",
+        "playerId": "p-1790583622683-0",
+        "x": 50,
+        "y": 32
+      },
+      {
+        "slot": "RAM",
+        "playerId": "p-1790583622683-2",
+        "x": 80,
+        "y": 35
+      },
+      {
+        "slot": "ST",
+        "playerId": "p-1790583622684-12",
+        "x": 50,
+        "y": 14
+      }
+    ]
+  },
+  "socials": {
+    "discord": "https://discord.gg/lamballvfc",
+    "instagram": "https://instagram.com/lamballvfc",
+    "tiktok": "https://tiktok.com/@lamballvfc",
+    "streamers": [
+      {
+        "name": "ThunderWool",
+        "platform": "TikTok",
+        "handle": "@thunderwool.fc",
+        "url": "https://tiktok.com/@thunderwool.fc"
+      },
+      {
+        "name": "KingBall",
+        "platform": "TikTok",
+        "handle": "@kingball_eafc",
+        "url": "https://tiktok.com/@kingball_eafc"
+      }
+    ]
+  }
+}
