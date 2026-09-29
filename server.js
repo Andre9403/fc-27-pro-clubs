@@ -592,7 +592,7 @@ app.get('/:slug', (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log('⚡ Multi-Club Pro Clubs Hub berjalan di http://localhost:' + PORT);
   console.log('🌐 Landing Portal: http://localhost:' + PORT + '/');
   console.log('👑 Lamball VFC: http://localhost:' + PORT + '/654678-lamball-vfc/');
