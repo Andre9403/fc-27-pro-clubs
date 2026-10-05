@@ -210,8 +210,8 @@ function renderPlayersTable() {
   }
 
   const kpiDiv = document.getElementById('kpiDivisionName');
-  if (kpiDiv && CLUB_CONFIG?.club?.divisionName) {
-    kpiDiv.textContent = CLUB_CONFIG.club.divisionName;
+  if (kpiDiv) {
+    kpiDiv.textContent = (CLUB_DATA && CLUB_DATA.club && CLUB_DATA.club.divisionName) ? CLUB_DATA.club.divisionName : 'Division 1';
   }
   if (!PLAYERS.length) {
     tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:24px;">Belum ada pemain terdaftar.</td></tr>';
