@@ -297,7 +297,13 @@ function initPlayerModal() {
         headers: { 'x-admin-pin': CURRENT_PIN },
         body: formData
       });
-      const json = await res.json();
+      const text = await res.text();
+      let json;
+      try {
+        json = JSON.parse(text);
+      } catch (parseErr) {
+        throw new Error(`Respon server (${res.status}): ${text.slice(0, 100)}`);
+      }
 
       if (json.success) {
         alertBox.className = 'alert-status success';

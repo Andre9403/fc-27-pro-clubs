@@ -34,24 +34,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 app.use('/clubs', express.static(path.join(__dirname, 'clubs')));
 
-// Multer Storage dinamis per klub
-const storage = multer.diskStorage({
-  destination: async (req, file, cb) => {
-    const slug = req.params.slug;
-    const uploadDir = path.join(getClubPath(slug), 'images', 'players');
-    try {
-      await fs.mkdir(uploadDir, { recursive: true });
-      cb(null, uploadDir);
-    } catch (err) {
-      cb(err, uploadDir);
-    }
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const safePlayerId = (req.params.id || 'player').replace(/[^a-zA-Z0-9_-]/g, '');
-    cb(null, safePlayerId + '_' + Date.now() + ext);
-  }
-});
+// Multer in-memory storage (serverless & cloud-ready)
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage,
@@ -265,7 +249,8 @@ app.post('/api/clubs/:slug/admin/player/:id', requireClubAdmin, upload.single('p
   if (isCaptain !== undefined) players[idx].isCaptain = (isCaptain === 'true' || isCaptain === true);
 
   if (req.file) {
-    players[idx].photo = `/clubs/${slug}/images/players/${req.file.filename}`;
+    const base64Photo = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    players[idx].photo = base64Photo;
   }
 
   await writeClubJson(slug, 'players.json', players);
