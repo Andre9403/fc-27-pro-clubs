@@ -199,6 +199,20 @@ async function loadAllAdminData() {
    ------------------------------------------------------------ */
 function renderPlayersTable() {
   const tbody = document.getElementById('playersTableBody');
+
+  const kpiSquad = document.getElementById('kpiSquadCount');
+  if (kpiSquad) kpiSquad.textContent = `${PLAYERS.length} Pemain`;
+
+  const kpiStarters = document.getElementById('kpiStartersCount');
+  if (kpiStarters) {
+    const starterCount = PLAYERS.filter(p => p.isStartingXI).length;
+    kpiStarters.textContent = `${starterCount || 11} Pemain`;
+  }
+
+  const kpiDiv = document.getElementById('kpiDivisionName');
+  if (kpiDiv && CLUB_CONFIG?.club?.divisionName) {
+    kpiDiv.textContent = CLUB_CONFIG.club.divisionName;
+  }
   if (!PLAYERS.length) {
     tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:24px;">Belum ada pemain terdaftar.</td></tr>';
     return;

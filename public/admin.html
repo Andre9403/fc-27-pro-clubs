@@ -36,20 +36,31 @@
     <!-- TOP BAR -->
     <header class="admin-topbar">
       <div class="topbar-left">
-        <img src="/images/logo.jpeg" alt="Logo" class="topbar-logo" id="topbarClubLogo">
-        <div>
-          <h1 id="topbarClubName">Admin Dashboard</h1>
-          <span class="badge-role">Club Manager · Terverifikasi</span>
+        <div class="topbar-logo-wrap">
+          <img src="/images/logo.jpeg" alt="Logo" class="topbar-logo" id="topbarClubLogo">
+          <span class="status-indicator-dot" title="EA Sports FC Live Connected"></span>
+        </div>
+        <div class="topbar-text-group">
+          <div class="topbar-title-row">
+            <h1 id="topbarClubName">Admin Dashboard</h1>
+            <span class="badge-role">👑 Club Manager</span>
+          </div>
+          <div class="topbar-meta">
+            <span class="badge-live-ea">⚡ EA FC 25 Sync Active</span>
+            <span class="topbar-subtext">· Verified Management Console</span>
+          </div>
         </div>
       </div>
       <div class="topbar-right">
-        <a href="/" class="btn-back-web" style="background:rgba(255,255,255,0.04); border-color:var(--border-subtle); margin-right:8px;">
+        <a href="/" class="btn-topbar-link">
           <span>🌐</span> Cari Klub
         </a>
-        <a href="../" id="linkBackToClub" class="btn-back-web">
+        <a href="../" id="linkBackToClub" class="btn-topbar-link btn-view-club">
           <span>👁️</span> Buka Web Klub
         </a>
-        <button type="button" class="btn-logout" id="btnLogout">Keluar</button>
+        <button type="button" class="btn-logout" id="btnLogout">
+          <span>🚪</span> Keluar
+        </button>
       </div>
     </header>
 
@@ -87,6 +98,38 @@
             <div>
               <h2>Manajemen Skuad & Pemain</h2>
               <p>Kelola nomor punggung, peran, kapten, status Starting XI, dan upload foto render transparan.</p>
+            </div>
+          </div>
+
+          <!-- KPI STATS OVERVIEW -->
+          <div class="admin-kpi-grid">
+            <div class="kpi-metric-card">
+              <span class="kpi-icon">👥</span>
+              <div>
+                <div class="kpi-label">TOTAL SKUAD</div>
+                <div class="kpi-val" id="kpiSquadCount">-</div>
+              </div>
+            </div>
+            <div class="kpi-metric-card">
+              <span class="kpi-icon">⭐</span>
+              <div>
+                <div class="kpi-label">STARTING XI</div>
+                <div class="kpi-val" id="kpiStartersCount">11 Pemain</div>
+              </div>
+            </div>
+            <div class="kpi-metric-card">
+              <span class="kpi-icon">⚡</span>
+              <div>
+                <div class="kpi-label">STATUS EA FC</div>
+                <div class="kpi-val" style="color:#55EFC4;">🟢 Terhubung</div>
+              </div>
+            </div>
+            <div class="kpi-metric-card">
+              <span class="kpi-icon">🏆</span>
+              <div>
+                <div class="kpi-label">DIVISI KLUB</div>
+                <div class="kpi-val" style="color:var(--gold-light);" id="kpiDivisionName">Divisi 1 Elite</div>
+              </div>
             </div>
           </div>
 
