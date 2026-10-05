@@ -15,6 +15,7 @@ import {
   getClubPath
 } from './services/clubManager.js';
 import { searchClub, syncLiveEaData } from './services/eaService.js';
+import { connectToDatabase } from './services/db.js';
 
 dotenv.config();
 
@@ -71,7 +72,8 @@ const requireClubAdmin = async (req, res, next) => {
   const { slug } = req.params;
   const pin = req.headers['x-admin-pin'] || req.query.pin;
 
-  if (!clubExists(slug)) {
+  const exists = await clubExists(slug);
+  if (!exists) {
     return res.status(404).json({ success: false, message: 'Klub tidak ditemukan.' });
   }
 
@@ -583,13 +585,16 @@ app.get('/:slug/admin*', (req, res) => {
 });
 
 // 3. Club Website: /:slug or /:slug/
-app.get('/:slug', (req, res) => {
+app.get('/:slug', async (req, res) => {
   const { slug } = req.params;
-  if (!clubExists(slug)) {
+  const exists = await clubExists(slug);
+  if (!exists) {
     return res.status(404).send('<h1>404 — Klub Tidak Ditemukan</h1><p>Klub dengan URL ini belum terdaftar. <a href="/">Daftarkan di sini</a>.</p>');
   }
-  res.sendFile(path.join(__dirname, 'public', 'club.html'));
+  return res.sendFile(path.join(__dirname, 'public', 'club.html'));
 });
+
+
 
 // Start Server
 app.listen(PORT, '0.0.0.0', () => {
@@ -598,3 +603,9 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log('👑 Lamball VFC: http://localhost:' + PORT + '/654678-lamball-vfc/');
   console.log('🔒 Lamball Admin: http://localhost:' + PORT + '/654678-lamball-vfc/admin/');
 });
+
+
+// Connect to MongoDB Atlas on start
+connectToDatabase().catch(err => console.warn("MongoDB initial connect:", err.message));
+
+export default app;

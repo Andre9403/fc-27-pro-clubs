@@ -1,6 +1,6 @@
 /* ============================================================
    LAMBALL VFC — MULTI-CLUB TENANT MANAGER SERVICE (clubManager.js)
-   Manages isolated club directories in /clubs/[clubId]-[clubName]/
+   Integrated with MongoDB Atlas Cloud Database and local fallback.
    ============================================================ */
 
 import fs from 'node:fs/promises';
@@ -8,6 +8,7 @@ import fsSync from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { syncLiveEaData } from './eaService.js';
+import { getDb } from './db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,12 +30,47 @@ export function getClubPath(slug) {
   return path.join(clubsRootDir, safeSlug);
 }
 
-export function clubExists(slug) {
+function mapFilenameToField(filename) {
+  if (filename === 'club-config.json') return 'config';
+  if (filename === 'players.json') return 'players';
+  if (filename === 'matches.json') return 'matches';
+  if (filename === 'trials.json') return 'trials';
+  return filename.replace('.json', '');
+}
+
+/**
+ * Check if club exists in MongoDB Atlas or locally
+ */
+export async function clubExists(slug) {
   if (!slug) return false;
+  try {
+    const db = await getDb();
+    const count = await db.collection('clubs').countDocuments({ slug }, { limit: 1 });
+    if (count > 0) return true;
+  } catch (err) {
+    console.warn('MongoDB clubExists warning, using filesystem check:', err.message);
+  }
   return fsSync.existsSync(getClubPath(slug));
 }
 
+/**
+ * Read club data from MongoDB Atlas, with local filesystem fallback
+ */
 export async function readClubJson(slug, filename, fallback = null) {
+  const field = mapFilenameToField(filename);
+
+  // 1. Try reading from MongoDB Atlas
+  try {
+    const db = await getDb();
+    const doc = await db.collection('clubs').findOne({ slug });
+    if (doc && doc[field] !== undefined) {
+      return doc[field];
+    }
+  } catch (err) {
+    console.warn('MongoDB read warning, falling back to local file:', err.message);
+  }
+
+  // 2. Fallback to local JSON file
   try {
     const filePath = path.join(getClubPath(slug), filename);
     const raw = await fs.readFile(filePath, 'utf-8');
@@ -44,17 +80,80 @@ export async function readClubJson(slug, filename, fallback = null) {
   }
 }
 
+/**
+ * Write club data to MongoDB Atlas and local filesystem
+ */
 export async function writeClubJson(slug, filename, data) {
-  const clubDir = getClubPath(slug);
-  await fs.mkdir(clubDir, { recursive: true });
-  const filePath = path.join(clubDir, filename);
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+  const field = mapFilenameToField(filename);
+
+  // 1. Write to MongoDB Atlas
+  try {
+    const db = await getDb();
+    await db.collection('clubs').updateOne(
+      { slug },
+      {
+        $set: {
+          [field]: data,
+          updatedAt: new Date()
+        },
+        $setOnInsert: {
+          slug,
+          createdAt: new Date()
+        }
+      },
+      { upsert: true }
+    );
+  } catch (err) {
+    console.error('MongoDB write error:', err.message);
+  }
+
+  // 2. Safe local filesystem write (if running locally or directory writable)
+  try {
+    const clubDir = getClubPath(slug);
+    if (!fsSync.existsSync(clubDir)) {
+      await fs.mkdir(clubDir, { recursive: true });
+    }
+    const filePath = path.join(clubDir, filename);
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (err) {
+    // In serverless / read-only environment like Vercel, this is expected to fail silently
+  }
+
+  return true;
 }
 
 /**
- * List all registered clubs for landing portal discovery
+ * List all registered clubs from MongoDB Atlas, with local fallback
  */
-export async function listAllClubs() {
+export async function listRegisteredClubs() {
+  // 1. Try MongoDB Atlas
+  try {
+    const db = await getDb();
+    const docs = await db.collection('clubs').find({}).toArray();
+    if (docs && docs.length > 0) {
+      return docs.map(doc => {
+        const conf = doc.config || {};
+        const clubInfo = conf.club || {};
+        return {
+          slug: doc.slug,
+          clubId: doc.clubId || clubInfo.eaClubId || doc.slug.split('-')[0],
+          name: clubInfo.name || doc.name || doc.slug,
+          shortName: clubInfo.shortName || (clubInfo.name || 'FC').slice(0, 3).toUpperCase(),
+          motto: clubInfo.motto || 'Champions never quit!',
+          division: clubInfo.division || 1,
+          divisionName: clubInfo.divisionName || 'Elite Division',
+          logo: clubInfo.logo || '/images/logo.jpeg',
+          theme: conf.theme || { primary: '#F5BA31', glow: '#FFD242' },
+          stats: clubInfo.stats || { matches: 0, wins: 0, winRate: 0 },
+          playersCount: (doc.players || []).length
+        };
+      });
+    }
+  } catch (err) {
+    console.warn('MongoDB list clubs warning, using filesystem:', err.message);
+  }
+
+  // 2. Local filesystem fallback
   try {
     if (!fsSync.existsSync(clubsRootDir)) return [];
     const entries = await fs.readdir(clubsRootDir, { withFileTypes: true });
@@ -65,20 +164,20 @@ export async function listAllClubs() {
         const slug = entry.name;
         const config = await readClubJson(slug, 'club-config.json');
         const players = await readClubJson(slug, 'players.json', []);
+
         if (config && config.club) {
           clubs.push({
-            slug,
+            slug: slug,
+            clubId: config.club.eaClubId || slug.split('-')[0],
             name: config.club.name || slug,
             shortName: config.club.shortName || 'FC',
-            motto: config.club.motto || '',
+            motto: config.club.motto || 'Champions never quit!',
             division: config.club.division || 1,
-            divisionName: config.club.divisionName || 'Division 1',
-            eaClubId: config.club.eaClubId || '',
-            platform: config.club.platform || 'common-gen5',
-            stats: config.club.stats || {},
-            theme: config.theme || { primary: '#F5BA31', bgDeep: '#0A0A0E' },
-            logo: config.club.logo || ('/clubs/' + slug + '/images/logo.jpeg'),
-            memberCount: players.length
+            divisionName: config.club.divisionName || 'Elite Division',
+            logo: config.club.logo || '/images/logo.jpeg',
+            theme: config.theme || { primary: '#F5BA31', glow: '#FFD242' },
+            stats: config.club.stats || { matches: 0, wins: 0, winRate: 0 },
+            playersCount: players.length
           });
         }
       }
@@ -92,7 +191,7 @@ export async function listAllClubs() {
 }
 
 /**
- * Create a new isolated club folder and initialize data
+ * Register a new club in MongoDB Atlas and local disk
  */
 export async function registerNewClub({ clubId, clubName, platform, adminPin, motto, themePreset }) {
   if (!clubName) {
@@ -100,67 +199,28 @@ export async function registerNewClub({ clubId, clubName, platform, adminPin, mo
   }
 
   const slug = generateClubSlug(clubId, clubName);
-  const clubDir = getClubPath(slug);
 
-  if (fsSync.existsSync(clubDir)) {
+  // Check if exists
+  const exists = await clubExists(slug);
+  if (exists) {
     throw new Error('Klub dengan URL /' + slug + '/ sudah terdaftar! Gunakan nama lain atau kelola di admin.');
   }
 
-  // Buat struktur direktori terisolasi
-  await fs.mkdir(path.join(clubDir, 'images', 'players'), { recursive: true });
+  // Safe local dir creation
+  const clubDir = getClubPath(slug);
+  try {
+    await fs.mkdir(path.join(clubDir, 'images', 'players'), { recursive: true });
+  } catch (e) {
+    // Ignore in read-only environment
+  }
 
-  // Siapkan tema warna
+  // Themes palette
   const themes = {
-    gold: {
-      preset: 'gold',
-      primary: '#F5BA31',
-      light: '#FFD966',
-      glow: '#FFD242',
-      bgDeep: '#0A0A0E',
-      bgSurface: '#12121A',
-      bgCard: '#181822',
-      text: '#FBF8EE'
-    },
-    red: {
-      preset: 'red',
-      primary: '#E74C3C',
-      light: '#FF7675',
-      glow: '#FF5252',
-      bgDeep: '#0D0808',
-      bgSurface: '#181010',
-      bgCard: '#221515',
-      text: '#FFF5F5'
-    },
-    blue: {
-      preset: 'blue',
-      primary: '#00D2D3',
-      light: '#54A0FF',
-      glow: '#48DBFB',
-      bgDeep: '#080C14',
-      bgSurface: '#0E1522',
-      bgCard: '#141E30',
-      text: '#F0F8FF'
-    },
-    green: {
-      preset: 'green',
-      primary: '#2ECC71',
-      light: '#55EFC4',
-      glow: '#20BF6B',
-      bgDeep: '#08140E',
-      bgSurface: '#0E1F16',
-      bgCard: '#142B20',
-      text: '#F0FFF4'
-    },
-    purple: {
-      preset: 'purple',
-      primary: '#9B59B6',
-      light: '#D980FA',
-      glow: '#8854D0',
-      bgDeep: '#0F0A14',
-      bgSurface: '#17101E',
-      bgCard: '#22182B',
-      text: '#FAF5FF'
-    }
+    gold: { preset: 'gold', primary: '#F5BA31', light: '#FFD966', glow: '#FFD242', bgDeep: '#0A0A0E', bgSurface: '#12121A', bgCard: '#181822', text: '#FBF8EE' },
+    red: { preset: 'red', primary: '#E74C3C', light: '#FF7675', glow: '#FF5252', bgDeep: '#0D0808', bgSurface: '#181010', bgCard: '#221515', text: '#FFF5F5' },
+    blue: { preset: 'blue', primary: '#00D2D3', light: '#54A0FF', glow: '#48DBFB', bgDeep: '#080C14', bgSurface: '#0E1522', bgCard: '#141E30', text: '#F0F8FF' },
+    green: { preset: 'green', primary: '#2ECC71', light: '#55EFC4', glow: '#20BF6B', bgDeep: '#08140E', bgSurface: '#0E1F16', bgCard: '#142B20', text: '#F0FFF4' },
+    purple: { preset: 'purple', primary: '#9B59B6', light: '#D980FA', glow: '#8854D0', bgDeep: '#0F0A14', bgSurface: '#17101E', bgCard: '#22182B', text: '#FAF5FF' }
   };
 
   const selectedTheme = themes[themePreset] || themes.gold;
@@ -177,7 +237,7 @@ export async function registerNewClub({ clubId, clubName, platform, adminPin, mo
       eaClubId: String(clubId || '').trim(),
       adminPin: String(adminPin || '1234').trim(),
       eaAutoSync: true,
-      logo: '/clubs/' + slug + '/images/logo.jpeg',
+      logo: '/images/logo.jpeg',
       stats: {
         matches: 0,
         wins: 0,
@@ -214,24 +274,13 @@ export async function registerNewClub({ clubId, clubName, platform, adminPin, mo
         { slot: "ST", playerId: "p11", x: 50, y: 14 }
       ]
     },
-    socials: {
-      discord: "",
-      instagram: "",
-      tiktok: "",
-      streamers: []
-    }
+    socials: { discord: "", instagram: "", tiktok: "", streamers: [] }
   };
-
-  // Coba salin default logo jika ada
-  const defaultLogo = path.join(baseDir, 'public', 'images', 'logo.jpeg');
-  if (fsSync.existsSync(defaultLogo)) {
-    await fs.copyFile(defaultLogo, path.join(clubDir, 'images', 'logo.jpeg'));
-  }
 
   let initialPlayers = [];
   let initialMatches = [];
 
-  // Coba tarik data live dari EA jika clubId diberikan
+  // Live EA sync if clubId is provided
   if (clubId) {
     try {
       const syncResult = await syncLiveEaData(clubId, platform || 'common-gen5', [], initialConfig, []);
@@ -247,7 +296,7 @@ export async function registerNewClub({ clubId, clubName, platform, adminPin, mo
     }
   }
 
-  // Jika belum ada pemain dari EA, buat starter squad default
+  // Starter squad if EA data is not found
   if (!initialPlayers.length) {
     initialPlayers = [
       { id: 'p1', eaId: 'Player_GK', name: 'Starter GK', realName: 'Kiper Utama', number: 1, pos: 'GK', ovr: 85, main: 0, gol: 0, assist: 0, rating: 6.5, winRate: 0, passAkurasi: 75, tekelAkurasi: 0, cleanSheets: 0, motmMusim: 0, archetype: 'Shot Stopper', isStartingXI: true },
@@ -264,7 +313,7 @@ export async function registerNewClub({ clubId, clubName, platform, adminPin, mo
     ];
   }
 
-  // Tulis semua file klub
+  // Save to MongoDB and local disk
   await writeClubJson(slug, 'club-config.json', initialConfig);
   await writeClubJson(slug, 'players.json', initialPlayers);
   await writeClubJson(slug, 'matches.json', initialMatches);
@@ -277,3 +326,5 @@ export async function registerNewClub({ clubId, clubName, platform, adminPin, mo
     adminUrl: '/' + slug + '/admin/'
   };
 }
+
+export { listRegisteredClubs as listAllClubs };
